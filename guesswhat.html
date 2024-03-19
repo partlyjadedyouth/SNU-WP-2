@@ -7,17 +7,66 @@
     <title>Guess the Number Game</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #8ecae6;
+            color: #023047;
             text-align: center;
-            margin-top: 50px;
+        }
+
+        header {
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            color: #ffb703;
+        }
+
+        input[type="number"] {
+            width: 80%;
+            padding: 10px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #fb8500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ffb703;
         }
 
         #result {
             margin: 20px auto;
-            width: 400px;
-            padding: 10px;
+            padding: 20px;
             border-radius: 5px;
-            background-color: #f0f0f0;
+            background-color: #ffddd2;
+            color: #023047;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        footer {
+            margin-top: 40px;
+            color: #023047;
         }
     </style>
 </head>
