@@ -4,111 +4,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beautiful Calculator</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-
-        .calculator {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .result-display {
-            width: 300px;
-            height: 50px;
-            margin-bottom: 20px;
-            padding: 10px;
-            background-color: #e9e9e9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            border-radius: 5px;
-        }
-
-        .button-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        button {
-            width: 70px;
-            height: 70px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>iOS Calculator Clone</title>
 </head>
+
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #000;
+    }
+
+    .calculator {
+        width: 300px;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .display {
+        background-color: #222;
+        color: white;
+        font-size: 2.5rem;
+        text-align: right;
+        padding: 20px;
+        word-wrap: break-word;
+    }
+
+    .buttons {
+        background-color: #333;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .button {
+        background-color: #f0f0f0;
+        border: none;
+        font-size: 1.5rem;
+        border-radius: 50%;
+        aspect-ratio: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .button:active {
+        background-color: #ccc;
+    }
+
+    .operation,
+    .ac,
+    .plus-minus,
+    .percent {
+        color: white;
+    }
+
+    .ac,
+    .plus-minus,
+    .percent {
+        background-color: #d4d4d2;
+    }
+
+    .operation {
+        background-color: #ff9500;
+    }
+
+    .zero {
+        grid-column: 2;
+        border-radius: 50px;
+    }
+</style>
 
 <body>
     <div class="calculator">
-        <div class="result-display" id="result-display">0</div>
-        <div class="button-row">
-            <button onclick="calculate('add')">+</button>
-            <button onclick="calculate('subtract')">-</button>
-            <button onclick="calculate('multiply')">*</button>
-            <button onclick="calculate('divide')">/</button>
+        <div class="display">0</div>
+        <div class="buttons">
+            <button class="button ac">AC</button>
+            <button class="button plus-minus">±</button>
+            <button class="button percent">%</button>
+            <button class="button operation">÷</button>
+            <button class="button">7</button>
+            <button class="button">8</button>
+            <button class="button">9</button>
+            <button class="button operation">x</button>
+            <button class="button">4</button>
+            <button class="button">5</button>
+            <button class="button">6</button>
+            <button class="button operation">-</button>
+            <button class="button">1</button>
+            <button class="button">2</button>
+            <button class="button">3</button>
+            <button class="button operation">+</button>
+            <button class="button zero">0</button>
+            <button class="button">.</button>
+            <button class="button operation">=</button>
         </div>
     </div>
-
-    <script>
-        function calculate(operation) {
-            // Prompt the user for two numbers
-            const num1 = parseFloat(prompt("Enter first number:"));
-            const num2 = parseFloat(prompt("Enter second number:"));
-
-            // Check if the inputs are numbers
-            if (isNaN(num1) || isNaN(num2)) {
-                alert("Please enter valid numbers");
-                return;
-            }
-
-            let result;
-            switch (operation) {
-                case 'add':
-                    result = num1 + num2;
-                    break;
-                case 'subtract':
-                    result = num1 - num2;
-                    break;
-                case 'multiply':
-                    result = num1 * num2;
-                    break;
-                case 'divide':
-                    // Check division by zero
-                    if (num2 === 0) {
-                        alert("Cannot divide by zero");
-                        return;
-                    }
-                    result = num1 / num2;
-                    break;
-                default:
-                    alert("Invalid operation");
-                    return;
-            }
-
-            // Display the result
-            document.getElementById('result-display').innerText = result.toString();
-        }
-    </script>
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let display = document.querySelector('.display');
+        let buttons = document.querySelectorAll('.button');
+        let currentOperation = null;
+        let firstOperand = '';
+        let secondOperand = '';
+        let shouldResetScreen = false;
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (button.classList.contains('operation')) {
+                    if (currentOperation !== null) evaluate();
+                    firstOperand = display.textContent;
+                    currentOperation = button.textContent;
+                    shouldResetScreen = true;
+                } else if (button.textContent === '=') {
+                    if (currentOperation === null || shouldResetScreen) return;
+                    evaluate();
+                    currentOperation = null;
+                } else if (button.textContent === 'AC') {
+                    display.textContent = '0';
+                    firstOperand = '';
+                    secondOperand = '';
+                    currentOperation = null;
+                    shouldResetScreen = false;
+                } else if (button.textContent === '±') {
+                    display.textContent = display.textContent.startsWith('-') ? display.textContent.substring(1) : '-' + display.textContent;
+                } else if (button.textContent === '%') {
+                    let currentValue = parseFloat(display.textContent);
+                    display.textContent = currentValue / 100;
+                } else {
+                    if (shouldResetScreen) resetScreen();
+                    display.textContent = display.textContent === '0' ? button.textContent : display.textContent + button.textContent;
+                }
+            });
+        });
+
+        function resetScreen() {
+            display.textContent = '';
+            shouldResetScreen = false;
+        }
+
+        function evaluate() {
+            secondOperand = display.textContent;
+            display.textContent = operate(currentOperation, firstOperand, secondOperand);
+            shouldResetScreen = true;
+        }
+
+        function operate(operator, a, b) {
+            a = parseFloat(a);
+            b = parseFloat(b);
+            switch (operator) {
+                case '+': return a + b;
+                case '-': return a - b;
+                case 'x': return a * b;
+                case '÷': if (b === 0) return null; else return a / b;
+                default: return null;
+            }
+        }
+    });
+
+</script>
 
 </html>
