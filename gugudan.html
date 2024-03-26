@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 10rem;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: 0 auto;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        td {
+            background-color: #fff;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="input-group">
+        <input type="number" id="number-input" placeholder="Enter a number" min="2" max="9">
+        <button id="generate-btn">Generate Table</button>
+    </div>
+    <table id="multiplication-table">
+        <thead>
+            <tr>
+                <th>Expression</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- JavaScript will dynamically insert rows here -->
+        </tbody>
+    </table>
+</body>
+
+<script>
+    const generateButton = document.getElementById("generate-btn");
+
+    generateButton.addEventListener("click", () => {
+        const numInput = document.getElementById("number-input")
+        const num = numInput.value;
+        if (2 <= num && num <= 9) {
+            const tbody = document.getElementsByTagName("tbody")[0];
+
+            tbody.innerHTML = '';
+            for (let i = 1; i < 10; i++) {
+                let tr = document.createElement("tr");
+                let expression = document.createElement("td");
+                let result = document.createElement("td");
+
+                expression.innerText = num.toString() + " x " + i.toString();
+                result.innerText = (num * i).toString();
+
+                tr.appendChild(expression);
+                tr.appendChild(result);
+
+                console.log(tr);
+
+                tbody.appendChild(tr);
+            }
+        } else {
+            alert("Please enter a number between 2 and 9.");
+            numInput.value = ""; // Reset the input field
+            numInput.focus(); // Bring the focus back to the input field
+        }
+    })        
+</script>
+
+</html>
